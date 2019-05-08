@@ -79,6 +79,10 @@ def do(t):
         pyautogui.moveTo(*cs, pyautogui.easeOutQuad)
         return
 
+    if t.data == "click":
+        pyautogui.click()
+        return
+
     if t.data == "hotkeys":
         cs = []
         for c in t.children:
@@ -115,7 +119,7 @@ def do(t):
     raise SyntaxError('Unknown instruction: %s' % t.data)
 
 @click.command()
-@click.option('--playlist', default="test/input.txt", help='Playlist to run.')
+@click.option('--playlist', default="test.txt", help='Playlist to run.')
 def drive(playlist):
     parser = Lark.open("lang.lark", parser='lalr')
 

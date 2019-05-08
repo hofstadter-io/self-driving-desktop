@@ -8,6 +8,7 @@ playlist_body : "{" (step ";")* "}"
 step : play
   | sleep
   | mv
+  | click
   | wspace_down
   | wspace_up
   | hotkeys
@@ -23,6 +24,7 @@ focus: "focus" WORD
 
 sleep: "sleep" number
 mv: "mv" number number number
+click: "click"
 
 wspace_down: "wspace_down"
 wspace_up: "wspace_up"
