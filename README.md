@@ -91,7 +91,7 @@ playlist main {
 play main;
 ```
 
-### Grammer
+### Grammar
 
 Top-level:
 
