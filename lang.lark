@@ -1,0 +1,49 @@
+start: item+
+
+item: step ";" | playlist ";"
+
+playlist : "playlist" WORD playlist_body
+playlist_body : "{" (step ";")* "}"
+
+step : play
+  | sleep
+  | mv
+  | wspace_down
+  | wspace_up
+  | hotkeys
+  | write
+  | shell
+  | name_active
+  | focus
+
+play: "play" WORD+
+
+name_active: "name_active" WORD
+focus: "focus" WORD
+
+sleep: "sleep" number
+mv: "mv" number number number
+
+wspace_down: "wspace_down"
+wspace_up: "wspace_up"
+
+hotkeys: "hotkeys" string+
+write: "write" string number?
+shell: "shell" string+
+
+
+number: SIGNED_NUMBER
+string: ESCAPED_STRING
+
+COMMENT: /#[^\n]*/
+WORD: LETTER+
+
+%import common.LETTER
+%import common.ESCAPED_STRING
+%import common.INT
+%import common.SIGNED_NUMBER
+%import common.WS
+
+%ignore COMMENT
+%ignore WS
+

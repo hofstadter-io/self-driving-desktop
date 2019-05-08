@@ -1,0 +1,53 @@
+playlist openTerm {
+  hotkeys "ctrl" "alt" "t";
+  sleep 1.0;
+
+  name_active hofTerm;
+  sleep 0.5;
+
+  hotkeys "winleft" "left";
+  sleep 1;
+};
+
+playlist openChrome {
+  shell "google-chrome";
+  sleep 2.0;
+
+  name_active hofChrome;
+  sleep 0.5;
+
+  hotkeys "winleft" "right";
+  sleep 1;
+};
+
+playlist focusTest {
+  wspace_down;
+  sleep 0.2;
+
+  play openTerm;
+  play openChrome;
+
+  focus hofTerm;
+  sleep 0.2;
+  write "hof config test\n" 0.05;
+
+  sleep 2;
+
+  focus hofChrome;
+  sleep 0.2;
+  write "https://docs.hofstadter.io\n" 0.05;
+
+  sleep 2;
+  wspace_up;
+};
+
+play focusTest;
+
+# play termTest;
+# play shellTest;
+# play chromeTest;
+
+# play activeTest;
+
+# play updown mousy updown;
+

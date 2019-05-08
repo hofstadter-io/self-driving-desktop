@@ -1,0 +1,18 @@
+playlist start-up {
+  wspace-down
+  new-win chrome
+  hotkeys("winleft", "right")
+  new-win term
+  hotkeys("winleft", "left")
+}
+
+playlist type-hello {
+  focus term
+  write "Hello World!" 0.05
+}
+
+playlist main {
+  play startup
+  play teyp-hello
+}
+
