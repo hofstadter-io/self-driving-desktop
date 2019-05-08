@@ -68,6 +68,27 @@ play focusTest;
 
 ### Grammer
 
+Top-level:
+
+- file has steps and playlists
+- steps are the only thing run
+- play runs a playlist
+
+Steps:
+
+- `play name+;`: run one or more playlists
+- `sleep x.y;`: sleep for x.y seconds
+- `mv x y s;`: move the mose to x,y in s seconds
+- `click;`: click the left mouse button
+- `wspace_down;`: move one workspace down
+- `wspace_up;`: move one workspace up
+- `hotkeys "quoted" "keys" ...;`: press some keys together
+- `write "quoted string\n";`: type a string, "\n" is enter
+- `shell "quoted strings"+;`: exec a command from the program
+- `name_active someName;`: name the active window
+- `focus someName;`: focus a named window
+
+
 ```
 start: item+
 
@@ -118,27 +139,4 @@ WORD: LETTER+
 %ignore COMMENT
 %ignore WS
 ```
-
-Top-level:
-
-- file has steps and playlists
-- steps are the only thing run
-- play runs a playlist
-
-Steps:
-
-- `play name+;`: run one or more playlists
-- `sleep x.y;`: sleep for x.y seconds
-- `mv x y s;`: move the mose to x,y in s seconds
-- `click;`: click the left mouse button
-- `wspace_down;`: move one workspace down
-- `wspace_up;`: move one workspace up
-- `hotkeys "quoted" "keys" ...;`: press some keys together
-- `write "quoted string\n";`: type a string, "\n" is enter
-- `shell "quoted strings"+;`: exec a command from the program
-- `name_active someName;`: name the active window
-- `focus someName;`: focus a named window
-
-
-
 
