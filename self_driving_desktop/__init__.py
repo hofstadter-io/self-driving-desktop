@@ -5,6 +5,8 @@ import subprocess
 from lark import Lark
 from Xlib import display, X
 
+from self_driving_desktop import parser as ourlang
+
 d = display.Display()
 
 playlists = {}
@@ -121,7 +123,7 @@ def do(t):
 @click.command()
 @click.option('--playlist', default="test.txt", help='Playlist to run.')
 def drive(playlist):
-    parser = Lark.open("lang.lark", parser='lalr')
+    parser = Lark(ourlang.grammar, parser='lalr')
 
     with open(playlist) as f:
         tree = parser.parse(f.read())
@@ -129,7 +131,3 @@ def drive(playlist):
         # print("="*16)
         for t in tree.children:
             do(t)
-
-if __name__ == '__main__':
-    drive()
-

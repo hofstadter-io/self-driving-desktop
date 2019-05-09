@@ -1,3 +1,5 @@
+
+grammar = r"""
 start: item+
 
 item: step ";" | playlist ";"
@@ -48,4 +50,4 @@ WORD: LETTER+
 
 %ignore COMMENT
 %ignore WS
-
+"""
