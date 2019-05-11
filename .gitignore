@@ -1,2 +1,5 @@
 penv
 __pycache__
+build
+dist
+self_driving_desktop.egg-info/

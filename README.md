@@ -1,20 +1,12 @@
 # self-driving-desktop
 
-Desktop Automation framework
-
-_tested on linux/gnome3_
-
+Desktop Automation Framework.
+Drive your keyboard and mouse with text files.
 
 ```
-python main.py --playlist path/to/file.txt
-```
+pip install self-driving-desktop
 
-### Development Setup
-
-```
-virtualenv --python python3 penv
-source penv/bin/activate
-pip install -r requirements.txt
+sdd playlist.txt [--record]
 ```
 
 ### Playlists
@@ -93,75 +85,63 @@ play main;
 
 ### Grammar
 
-Top-level:
+#### Top-level:
 
 - file has steps and playlists
 - steps are the only thing run
 - play runs a playlist
 
-Steps:
+#### Steps:
 
-- `play name+;`: run one or more playlists
+- `play name nameB ...;`: run one or more playlists
+- `delay x.y;`: set delay between steps to x.y seconds
 - `sleep x.y;`: sleep for x.y seconds
-- `mv x y s;`: move the mose to x,y in s seconds
-- `click;`: click the left mouse button
-- `wspace_down;`: move one workspace down
-- `wspace_up;`: move one workspace up
-- `hotkeys "quoted" "keys" ...;`: press some keys together
-- `write "quoted string\n";`: type a string, "\n" is enter
 - `shell "quoted strings"+;`: exec a command from the program
-- `name_active someName;`: name the active window
+
+windows:
+
+- `active someName;`: name the active window
 - `focus someName;`: focus a named window
 
+mouse:
+
+- `mouse x y s;`: move the mose to x,y in s seconds
+- `click;`: click the left mouse button
+- `btnclick [left,middle,right];`
+- `btndown [left,middle,right];`
+- `btnup [left,middle,right];`
+- `draw [left,middle,right] x y s;`: move the mose to x,y in s seconds
+- `scroll n;`: scroll n lines, negative is up
+- `hscroll n;`: horizontal scroll n "clicks", negative is left
+
+keyboard:
+
+- `keypress "key";`
+- `keydown "key";`
+- `keyup "key";`
+- `hotkeys "quoted" "keys" ...;`: press some keys together
+- `write "quoted string\n";`: type a string, "\n" is enter
+
+clipboard:
+
+- `copy;`, just `ctrl-c`
+- `paste;`, just `ctrl-v`
+- `save_clipboard "name";` save the clipboard contents to "name"
+- `load_clipboard "name";` load the clipboard contents from "name"
+- `copy_clipboard "name";` copy && save the clipboard contents to "name"
+- `paste_clipboard "name";` load the clipboard contents from "name" && paste
+
+all keys are from pyautogui
+
+[Grammer Definition](./self_driving_desktop/grammar.py)
+
+### Development Setup
 
 ```
-start: item+
-
-item: step ";" | playlist ";"
-
-playlist : "playlist" WORD playlist_body
-playlist_body : "{" (step ";")* "}"
-
-step : play
-  | sleep
-  | mv
-  | wspace_down
-  | wspace_up
-  | hotkeys
-  | write
-  | shell
-  | name_active
-  | focus
-
-play: "play" WORD+
-
-name_active: "name_active" WORD
-focus: "focus" WORD
-
-sleep: "sleep" number
-mv: "mv" number number number
-
-wspace_down: "wspace_down"
-wspace_up: "wspace_up"
-
-hotkeys: "hotkeys" string+
-write: "write" string number?
-shell: "shell" string+
-
-
-number: SIGNED_NUMBER
-string: ESCAPED_STRING
-
-COMMENT: /#[^\n]*/
-WORD: LETTER+
-
-%import common.LETTER
-%import common.ESCAPED_STRING
-%import common.INT
-%import common.SIGNED_NUMBER
-%import common.WS
-
-%ignore COMMENT
-%ignore WS
+virtualenv --python python3 penv
+source penv/bin/activate
+pip install -r requirements.txt
+export PYTHONPATH=.
+python self_driving_desktop/__main__.py ...
 ```
 
