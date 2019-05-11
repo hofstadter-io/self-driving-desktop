@@ -140,7 +140,7 @@ def do(t):
     if t.data == "repeat":
         count = do(t.children[-1])
 
-        for x in range(1, count):
+        for x in range(1, int(count)):
             for playname in t.children[:-1]:
                 playlist = playlists[playname]
                 do(playlist)

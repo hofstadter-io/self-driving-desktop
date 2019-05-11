@@ -11,7 +11,7 @@ coords_body : "{" coord_def ("," coord_def)* "}"
 coord_def: string ":" "{" coord_body ("," coord_body)* "}"
 coord_body: string ":" "[" int "," int "]"
 
-playlist : "playlist" WORD playlist_body
+playlist : "playlist" string playlist_body
 playlist_body : "{" (step ";")* "}"
 
 step : screen
@@ -43,11 +43,11 @@ step : screen
 | paste_clipboard
 
 screen: "screen" string
-repeat: "play" WORD+ int
-play: "play" WORD+
+repeat: "play" string+ int | "play" string+ number
+play: "play" string+
 
-active: "active" WORD
-focus: "focus" WORD
+active: "active" string
+focus: "focus" string
 
 delay: "delay" number
 sleep: "sleep" number

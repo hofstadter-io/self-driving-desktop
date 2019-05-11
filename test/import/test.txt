@@ -1,8 +1,8 @@
 import "next.txt";
 import "../coords.txt";
 
-playlist importTest {
-  play termi;
+playlist "importTest" {
+  play "termi";
 
   screen "1080p";
   mc "center" 2;

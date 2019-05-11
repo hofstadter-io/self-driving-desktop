@@ -12,105 +12,84 @@ sdd playlist.txt [--record]
 ### Playlists
 
 ```
-playlist termCopy {
-  hk "ctrl" "shift" "c";
-};
-playlist termPaste {
-  hk "ctrl" "shift" "v";
-};
+# Set screen size
+screen "1080p";
 
-playlist wsUp {
-  hk "ctrl" "alt" "up";
-  sleep 0.5;
-};
-playlist wsDown {
-  hk "ctrl" "alt" "down";
-  sleep 0.5;
+# Create Coordinates
+coords {
+  "center": {
+    "1080p": [960, 540],
+    "720p":  [640, 360]
+  }
 };
 
-playlist openTerm {
-  hotkeys "ctrl" "alt" "t";
-  sleep 1.0;
+# Import playlist files
+import "test/main.txt";
 
-  active hofTerm;
-  sleep 0.5;
-
-  hotkeys "winleft" "left";
-  sleep 1;
-};
-
-playlist closeTerm {
-  focus hofTerm;
-  hotkeys "ctrl" "shift" "q";
-  sleep 1;
-};
-
-playlist closeChrome {
-  focus hofChrome;
-  hotkeys "alt" "f4";
-  sleep 1;
-};
-
-playlist openChrome {
+# Create a playlist
+playlist "openChrome" {
+  # Run programs in the shell
   shell "google-chrome";
   sleep 2.0;
 
-  active hofChrome;
+  # Name the new window
+  active "hofChrome";
   sleep 0.5;
 
+  # Use hotkeys to arrange
   hotkeys "winleft" "right";
   sleep 1;
 };
 
-playlist focusTest {
-  focus hofTerm;
-  sleep 0.2;
-  write "date\n" 0.05;
+playlist "closeChrome" {
+  # Focus a named window
+  focus "hofChrome";
+  hotkeys "alt" "f4";
+  sleep 1;
+};
 
-  sleep 2;
-
-  focus hofChrome;
+playlist "readTheDocs" {
+  # Go to a webpage
+  focus "hofChrome";
   sleep 0.2;
+
+  # Type the URL
   write "https://docs.hofstadter.io\n" 0.05;
+
+  # Goto an imported coordinate
+  coord "getting-started" 0.5;
 };
 
-playlist clipboardTest {
-  mv 1108 85 1;
-  drag "left" 1263 85 1.5;
-  copy;
-
-  focus hofTerm;
-  play termPaste;
+# Move the mouse in a square
+playlist "repeatTest" {
+  mm 100 100 1;
+  mm 1000 100 1;
+  mm 1000 500 1;
+  mm 100 500 1;
 };
 
-playlist gsDocs {
-  mv 20 100 1.5;
-  drag "left" 250 300 1.5;
+# Our main playlist
+playlist "main" {
+  # Goto a named coordinate, also with offset
+  coord "center" 1;
+  coord "center" 250 -250 1;
 
-  mv 1111 272 1;
-  click;
-  sleep 2;
+  # Operate the browser
+  play "openChrome";
+  play "readTheDocs";
+  play "closeChrome";
+
+  # Play a playlist multiple times
+  play "repeatTest" 4;
+
 };
 
-playlist main {
-  play wsDown;
-  sleep 0.2;
-
-  play openTerm openChrome;
-
-  play focusTest;
-  play clipboardTest;
-  play gsDocs;
-
-  play closeChrome closeTerm;
-
-  sleep 2;
-  play wsUp;
-};
-
+# Set the global delay between steps
 delay 0.025;
 
-play main;
+# Finally, play our main playlist
+play "main";
+
 ```
 
 ### Grammar
@@ -121,26 +100,61 @@ play main;
 - steps are the only thing run
 - play runs a playlist
 
+```
+# relative imports from file
+import "relative/path.txt";
+
+# named coordinates
+coords {
+  # coord name
+  "center": {
+    # screen identifier
+    "1080p": [960, 540],
+    "720p":  [640, 360]
+  }
+};
+
+# define playlists
+playlist "my-playlist" {
+  steps...;
+};
+
+playlist "main" {
+  steps...;
+  # run playlists from playlists
+  play "my-playlist"
+}
+
+# set the screen identifier
+screen "1080p";
+
+# run a playlist
+play "my-playlist" "main";
+```
+
 #### Steps:
 
-- `play name nameB ... [N];`: run one or more playlists, optionally repeat N times.
+- `play "name" "nameB" ... [N];`: run one or more playlists, optionally repeat N times.
 - `delay x.y;`: set delay between steps to x.y seconds
 - `sleep x.y;`: sleep for x.y seconds
+- `screen "screen";`: set the screen resolution identifier
 - `shell "quoted strings"+;`: exec a command from the program
 
 windows:
 
-- `active someName;`: name the active window
-- `focus someName;`: focus a named window
+- `active "someName";`: name the active window
+- `focus "someName";`: focus a named window
 
 mouse:
 
 - `mouse x y s;`: move the mouse to x,y in s seconds
+- `coord "name" s;`: move the mouse to a named coordinate in s seconds
+- `coord "name" x y s;`: move to a named coordinate with offset in s seconds
 - `click;`: click the left mouse button
 - `btnclick [left,middle,right];`
 - `btndown [left,middle,right];`
 - `btnup [left,middle,right];`
-- `draw [left,middle,right] x y s;`: drag the mouse to x,y in s seconds
+- `drag [left,middle,right] x y s;`: drag the mouse to x,y in s seconds
 - `scroll n;`: scroll n lines, negative is up
 - `hscroll n;`: horizontal scroll n "clicks", negative is left
 

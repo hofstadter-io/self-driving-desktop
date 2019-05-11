@@ -1,107 +1,78 @@
-playlist termCopy {
-  hk "ctrl" "shift" "c";
-};
-playlist termPaste {
-  hk "ctrl" "shift" "v";
-};
+# Set screen size
+screen "1080p";
 
-playlist wsUp {
-  hk "ctrl" "alt" "up";
-  sleep 0.5;
-};
-playlist wsDown {
-  hk "ctrl" "alt" "down";
-  sleep 0.5;
+# Create Coordinates
+coords {
+  "center": {
+    "1080p": [960, 540],
+    "720p":  [640, 360]
+  }
 };
 
-playlist openTerm {
-  hotkeys "ctrl" "alt" "t";
-  sleep 1.0;
+# Import playlist files
+import "test/main.txt";
 
-  active hofTerm;
-  sleep 0.5;
-
-  hotkeys "winleft" "left";
-  sleep 1;
-};
-
-playlist closeTerm {
-  focus hofTerm;
-  hotkeys "ctrl" "shift" "q";
-  sleep 1;
-};
-
-playlist closeChrome {
-  focus hofChrome;
-  hotkeys "alt" "f4";
-  sleep 1;
-};
-
-playlist openChrome {
+# Create a playlist
+playlist "openChrome" {
+  # Run programs in the shell
   shell "google-chrome";
   sleep 2.0;
 
-  active hofChrome;
+  # Name the new window
+  active "hofChrome";
   sleep 0.5;
 
+  # Use hotkeys to arrange
   hotkeys "winleft" "right";
   sleep 1;
 };
 
-playlist focusTest {
-  focus hofTerm;
-  sleep 0.2;
-  write "date\n" 0.05;
+playlist "closeChrome" {
+  # Focus a named window
+  focus "hofChrome";
+  hotkeys "alt" "f4";
+  sleep 1;
+};
 
-  sleep 2;
-
-  focus hofChrome;
+playlist "readTheDocs" {
+  # Go to a webpage
+  focus "hofChrome";
   sleep 0.2;
+
+  # Type the URL
   write "https://docs.hofstadter.io\n" 0.05;
+
+  # Goto an imported coordinate
+  coord "getting-started" 0.5;
 };
 
-playlist clipboardTest {
-  mv 1108 85 1;
-  drag "left" 1263 85 1.5;
-  copy;
-
-  focus hofTerm;
-  play termPaste;
-};
-
-playlist repeatTest {
+# Move the mouse in a square
+playlist "repeatTest" {
   mm 100 100 1;
   mm 1000 100 1;
   mm 1000 500 1;
   mm 100 500 1;
 };
 
-playlist gsDocs {
-  mv 20 100 1.5;
-  drag "left" 250 300 1.5;
+# Our main playlist
+playlist "main" {
+  # Goto a named coordinate, also with offset
+  coord "center" 1;
+  coord "center" 250 -250 1;
 
-  mv 1111 272 1;
-  click;
-  sleep 2;
+  # Operate the browser
+  play "openChrome";
+  play "readTheDocs";
+  play "closeChrome";
+
+  # Play a playlist multiple times
+  play "repeatTest" 4;
+
 };
 
-playlist main {
-  play wsDown;
-  sleep 0.2;
-
-  play openTerm openChrome;
-
-  play focusTest;
-  play clipboardTest;
-  play gsDocs;
-
-  play closeChrome closeTerm;
-
-  sleep 2;
-  play wsUp;
-};
-
+# Set the global delay between steps
 delay 0.025;
 
-play repeatTest 4;
+# Finally, play our main playlist
+play "main";
 

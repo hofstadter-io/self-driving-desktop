@@ -4,17 +4,17 @@ delay 0.025;
 import "coords.txt";
 import "import/test.txt";
 
-playlist main {
+playlist "main" {
   mm 100 100 1;
-  mc "point-b" 1;
+
   mc "center" 1;
   screen "720p";
   mc "center" 1;
   sleep 1;
 
-  play importTest;
+  play "importTest";
   sleep 1;
 };
 
-play main;
+play "main";
 

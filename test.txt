@@ -4,61 +4,61 @@ coords {
   }
 }
 
-playlist termCopy {
+playlist "termCopy" {
   hk "ctrl" "shift" "c";
 };
-playlist termPaste {
+playlist "termPaste" {
   hk "ctrl" "shift" "v";
 };
 
-playlist wsUp {
+playlist "wsUp" {
   hk "ctrl" "alt" "up";
   sleep 0.5;
 };
-playlist wsDown {
+playlist "wsDown" {
   hk "ctrl" "alt" "down";
   sleep 0.5;
 };
 
-playlist closeChrome {
-  focus hofChrome;
+playlist "closeChrome" {
+  focus "hofChrome";
   hotkeys "alt" "f4";
   sleep 1;
 };
 
-playlist openChrome {
+playlist "openChrome" {
   shell "google-chrome";
   sleep 2.0;
 
-  active hofChrome;
+  active "hofChrome";
   sleep 0.5;
 
   hotkeys "winleft" "right";
   sleep 1;
 };
 
-playlist focusTest {
-  focus hofTerm;
+playlist "focusTest" {
+  focus "hofTerm";
   sleep 0.2;
   write "date\n" 0.05;
 
   sleep 2;
 
-  focus hofChrome;
+  focus "hofChrome";
   sleep 0.2;
   write "https://docs.hofstadter.io\n" 0.05;
 };
 
-playlist clipboardTest {
+playlist "clipboardTest" {
   mv 1108 85 1;
   drag "left" 1263 85 1.5;
   copy;
 
-  focus hofTerm;
-  play termPaste;
+  focus "hofTerm";
+  play "termPaste";
 };
 
-playlist gsDocs {
+playlist "gsDocs" {
   mv 20 100 1.5;
   drag "left" 250 300 1.5;
 
@@ -67,23 +67,23 @@ playlist gsDocs {
   sleep 2;
 };
 
-playlist main {
-  play wsDown;
+playlist "main" {
+  play "wsDown";
   sleep 0.2;
 
-  play openTerm openChrome;
+  play "openTerm" "openChrome";
 
-  play focusTest;
-  play clipboardTest;
-  play gsDocs;
+  play "focusTest";
+  play "clipboardTest";
+  play "gsDocs";
 
-  play closeChrome closeTerm;
+  play "closeChrome" "closeTerm";
 
   sleep 2;
-  play wsUp;
+  play "wsUp";
 };
 
 delay 0.025;
 
-play repeatTest 4;
+play "main" 4;
 
