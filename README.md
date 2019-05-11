@@ -12,11 +12,27 @@ sdd playlist.txt [--record]
 ### Playlists
 
 ```
+playlist termCopy {
+  hk "ctrl" "shift" "c";
+};
+playlist termPaste {
+  hk "ctrl" "shift" "v";
+};
+
+playlist wsUp {
+  hk "ctrl" "alt" "up";
+  sleep 0.5;
+};
+playlist wsDown {
+  hk "ctrl" "alt" "down";
+  sleep 0.5;
+};
+
 playlist openTerm {
   hotkeys "ctrl" "alt" "t";
   sleep 1.0;
 
-  name_active hofTerm;
+  active hofTerm;
   sleep 0.5;
 
   hotkeys "winleft" "left";
@@ -39,7 +55,7 @@ playlist openChrome {
   shell "google-chrome";
   sleep 2.0;
 
-  name_active hofChrome;
+  active hofChrome;
   sleep 0.5;
 
   hotkeys "winleft" "right";
@@ -58,27 +74,41 @@ playlist focusTest {
   write "https://docs.hofstadter.io\n" 0.05;
 };
 
+playlist clipboardTest {
+  mv 1108 85 1;
+  drag "left" 1263 85 1.5;
+  copy;
+
+  focus hofTerm;
+  play termPaste;
+};
+
 playlist gsDocs {
-  mv 100 100 1.5;
+  mv 20 100 1.5;
+  drag "left" 250 300 1.5;
+
   mv 1111 272 1;
   click;
   sleep 2;
 };
 
 playlist main {
-  wspace_down;
+  play wsDown;
   sleep 0.2;
 
   play openTerm openChrome;
 
   play focusTest;
+  play clipboardTest;
   play gsDocs;
 
   play closeChrome closeTerm;
 
   sleep 2;
-  wspace_up;
+  play wsUp;
 };
+
+delay 0.025;
 
 play main;
 ```
