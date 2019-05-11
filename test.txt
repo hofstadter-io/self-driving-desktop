@@ -69,6 +69,13 @@ playlist clipboardTest {
   play termPaste;
 };
 
+playlist repeatTest {
+  mm 100 100 1;
+  mm 1000 100 1;
+  mm 1000 500 1;
+  mm 100 500 1;
+};
+
 playlist gsDocs {
   mv 20 100 1.5;
   drag "left" 250 300 1.5;
@@ -96,5 +103,5 @@ playlist main {
 
 delay 0.025;
 
-play main;
+play repeatTest 4;
 

@@ -6,7 +6,8 @@ item: playlist | step
 playlist : "playlist" WORD playlist_body
 playlist_body : "{" (step ";")* "}"
 
-step : play
+step : repeat
+| play
 | active
 | focus
 | delay
@@ -30,6 +31,7 @@ step : play
 | copy_clipboard
 | paste_clipboard
 
+repeat: "play" WORD+ int
 play: "play" WORD+
 
 active: "active" WORD

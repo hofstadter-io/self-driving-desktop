@@ -17,6 +17,17 @@ def do(t):
         do(t.children[0])
         return
 
+    if t.data == "repeat":
+        print("REPEAT", t.children)
+        count = do(t.children[-1])
+
+        for x in range(1,count):
+            for playname in t.children[:-1]:
+                playlist = playlists[playname]
+                do(playlist)
+
+        return
+
     if t.data == "play":
         for playname in t.children:
             playlist = playlists[playname]
