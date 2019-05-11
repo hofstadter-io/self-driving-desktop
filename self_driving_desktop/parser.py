@@ -1,20 +1,64 @@
+import os
 import time
+from lark import Lark
 import pyautogui
 import clipboard
 import subprocess
 from Xlib import display, X
 
-pyautogui.PAUSE=0.01
+from self_driving_desktop import grammar as G
+
+pyautogui.PAUSE = 0.01
 
 d = display.Display()
 
+parser = None
+dirname = None
+filename = None
+dirstack = []
 screen = "1080p"
 coords = {}
 playlists = {}
 wins = {}
 clipboards = {}
 
+
+def run(playlist):
+    global parser
+    parser = Lark(G.grammar, parser='lalr')
+    dirname = os.path.dirname(playlist)
+
+    setFilename(playlist)
+    pushDir(dirname)
+
+    with open(playlist) as f:
+        tree = parser.parse(f.read())
+        # print(tree)
+        # print("="*16)
+        for t in tree.children:
+            do(t)
+
+
+def setFilename(n):
+    global filename
+    filename = n
+
+
+def pushDir(d):
+    global dirname
+    dirname = d
+    dirstack.append(d)
+
+
+def popDir():
+    global dirname
+    dirname = dirstack.pop()
+
+
 def do(t):
+    global parser
+    global dirname
+    global filename
     global screen
     global coords
     global playlists
@@ -23,6 +67,28 @@ def do(t):
 
     if t.data == "item":
         do(t.children[0])
+        return
+
+    if t.data == "import":
+        fname = do(t.children[0])
+        dname = os.path.dirname(fname)
+        fullname = os.path.join(dirname, fname)
+        fulldir = os.path.join(dirname, dname)
+
+        currfile = filename
+        setFilename(fullname)
+        pushDir(fulldir)
+        try:
+            with open(fullname) as f:
+                tree = parser.parse(f.read())
+                for t in tree.children:
+                    do(t)
+        except Exception as e:
+            print("Error in file:", fullname)
+            raise e
+
+        setFilename(currfile)
+        popDir()
         return
 
     if t.data == "coords":
@@ -74,7 +140,7 @@ def do(t):
     if t.data == "repeat":
         count = do(t.children[-1])
 
-        for x in range(1,count):
+        for x in range(1, count):
             for playname in t.children[:-1]:
                 playlist = playlists[playname]
                 do(playlist)
@@ -180,7 +246,6 @@ def do(t):
         pyautogui.moveTo(x, y, t, pyautogui.easeOutQuad)
         return
 
-
     if t.data == "mouse":
         cs = []
         for c in t.children:
@@ -251,7 +316,7 @@ def do(t):
 
     if t.data == "write":
         text = do(t.children[0])
-        interval=0.1
+        interval = 0.1
         if len(t.children) == 2:
             interval = do(t.children[1])
 
@@ -292,5 +357,4 @@ def do(t):
         pyautogui.hotkey("ctrl", "v")
         return
 
-    raise SyntaxError('Unknown instruction: %s' % t.data)
-
+    raise SyntaxError('In file: %s\n  Unknown instruction: %s' % (filename, t.data))

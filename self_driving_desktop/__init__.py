@@ -1,8 +1,6 @@
 import click
-from lark import Lark
 
 from self_driving_desktop import parser as P
-from self_driving_desktop import grammar as G
 from self_driving_desktop import recorder as R
 
 
@@ -17,15 +15,8 @@ def drive(playlist, record):
 
 
 def doPlay(playlist):
-    parser = Lark(G.grammar, parser='lalr')
+    P.run(playlist)
 
-    with open(playlist) as f:
-        tree = parser.parse(f.read())
-        # print(tree)
-        # print("="*16)
-        for t in tree.children:
-            P.do(t)
 
 def doRecord(playlist):
     R.do(playlist)
-

@@ -1,7 +1,9 @@
 grammar = r"""
 start: (item ";")+
 
-item: coords | playlist | step
+item: import | coords | playlist | step
+
+import : "import" string
 
 coords : "coords" coords_body
 coords_body : "{" coord_def ("," coord_def)* "}"

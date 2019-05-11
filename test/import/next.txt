@@ -1,0 +1,3 @@
+playlist termi {
+  hk "ctrl" "alt" "t";
+};
