@@ -165,6 +165,19 @@ all keys are from pyautogui
 
 [Grammer Definition](./self_driving_desktop/grammar.py)
 
+### Recording
+
+You can record your mouse and keyboard
+to a playlist file by:
+
+```
+sdd record.txt --record
+```
+
+_Note, not all keys are working yet._
+
+A keymap to fix some is [here](./self_driving_desktop/keymap.py).
+
 ### Development Setup
 
 ```

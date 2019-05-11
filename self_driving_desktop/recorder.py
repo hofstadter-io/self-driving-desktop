@@ -5,6 +5,8 @@ import sys
 import os
 from datetime import datetime
 
+from self_driving_desktop.keymap import keymap as KEYMAP
+
 
 # Change path so we find Xlib
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
@@ -18,16 +20,6 @@ record_dpy = display.Display()
 
 outfile=None
 lasttime=None
-
-key_map = {
-    "Up": "up",
-    "Down": "down",
-    "Left": "left",
-    "Right": "right",
-    "Super_L": "winleft",
-    "Control_L": "ctrlleft",
-    "Alt_L": "altleft"
-}
 
 def lookup_keysym(keysym):
     for name in dir(XK):
@@ -65,23 +57,25 @@ def record_callback(reply):
                 lasttime = currtime
                 key = None
                 try:
-                    key = key_map[event.detail]
+                    key = KEYMAP[event.detail]
                 except:
+                    print("Unknown KeyCode:", event.detail)
                     key = event.detail
 
                 outfile.write("  k%s \"%s\";  # KeyCode\n" % (kd, key))
-                print("KeyCode%s" % pr, event.detail)
+                # print("KeyCode%s" % pr, event.detail)
             else:
                 lasttime = currtime
-                key1 = lookup_keysym(keysym)
+                key1 = lookup_keysym(keysym).lower()
                 key = None
                 try:
-                    key = key_map[key1]
+                    key = KEYMAP[key1]
                 except:
+                    print("Unknown KeyCode:", key1)
                     key = key1
 
                 outfile.write("  k%s \"%s\";  # KeyStr\n" % (kd, key))
-                print("KeyStr%s" % pr, key)
+                # print("KeyStr%s" % pr, key)
 
             if event.type == X.KeyPress and keysym == XK.XK_Escape:
                 local_dpy.record_disable_context(ctx)
