@@ -8,17 +8,70 @@ pyautogui.PAUSE=0.01
 
 d = display.Display()
 
+screen = "1080p"
+coords = {}
 playlists = {}
 wins = {}
 clipboards = {}
 
 def do(t):
+    global screen
+    global coords
+    global playlists
+    global wins
+    global clipboards
+
     if t.data == "item":
         do(t.children[0])
         return
 
+    if t.data == "coords":
+        do(t.children[0])
+        return
+
+    if t.data == "coords_body":
+        for c in t.children:
+            do(c)
+
+        return
+
+    if t.data == "coord_def":
+        name = do(t.children[0])
+
+        try:
+            coords[name]
+        except:
+            coords[name] = {}
+
+        for c in t.children[1:]:
+            pnt = do(c)
+            coords[name][pnt[0]] = pnt[1:]
+
+        return
+
+    if t.data == "coord_body":
+        name = do(t.children[0])
+        x = do(t.children[1])
+        y = do(t.children[2])
+        return [name, x, y]
+
+    if t.data == "playlist":
+        name, pl = t.children
+        playlists[name] = pl
+        return
+
+    if t.data == "playlist_body":
+        for c in t.children:
+            do(c)
+
+        return
+
+    if t.data == "screen":
+        name = do(t.children[0])
+        screen = name
+        return
+
     if t.data == "repeat":
-        print("REPEAT", t.children)
         count = do(t.children[-1])
 
         for x in range(1,count):
@@ -101,6 +154,32 @@ def do(t):
         pyautogui.moveTo(cs[0], cs[1])
         pyautogui.mouseUp(button=btn)
         return
+
+    if t.data == "coord":
+        name = do(t.children[0])
+        t = do(t.children[1])
+
+        pnt = coords[name][screen]
+        x, y = pnt[0], pnt[1]
+
+        pyautogui.moveTo(x, y, t, pyautogui.easeOutQuad)
+        return
+
+    if t.data == "coord_off":
+        name = do(t.children[0])
+        x = do(t.children[1])
+        y = do(t.children[2])
+        t = do(t.children[3])
+
+        pnt = coords[name][screen]
+        px, py = pnt[0], pnt[1]
+
+        x = px + x
+        y = py + y
+
+        pyautogui.moveTo(x, y, t, pyautogui.easeOutQuad)
+        return
+
 
     if t.data == "mouse":
         cs = []

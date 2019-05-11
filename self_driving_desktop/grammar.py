@@ -1,12 +1,19 @@
 grammar = r"""
 start: (item ";")+
 
-item: playlist | step
+item: coords | playlist | step
+
+coords : "coords" coords_body
+coords_body : "{" coord_def ("," coord_def)* "}"
+
+coord_def: string ":" "{" coord_body ("," coord_body)* "}"
+coord_body: string ":" "[" int "," int "]"
 
 playlist : "playlist" WORD playlist_body
 playlist_body : "{" (step ";")* "}"
 
-step : repeat
+step : screen
+| repeat
 | play
 | active
 | focus
@@ -15,6 +22,8 @@ step : repeat
 | shell
 | drag
 | mouse
+| coord_off
+| coord
 | click
 | btndown
 | btnup
@@ -31,6 +40,7 @@ step : repeat
 | copy_clipboard
 | paste_clipboard
 
+screen: "screen" string
 repeat: "play" WORD+ int
 play: "play" WORD+
 
@@ -41,6 +51,8 @@ delay: "delay" number
 sleep: "sleep" number
 shell: ("shell"|"sh") string+
 
+coord_off: ("coord"|"mc") string number number number
+coord: ("coord"|"mc") string number
 mouse: ("mouse"|"mv"|"mm") number number number
 drag: ("drag"|"md") string number number number
 click: "click"
@@ -68,6 +80,8 @@ number: SIGNED_NUMBER
 string: ESCAPED_STRING
 
 COMMENT: /#[^\n]*/
+IDENT: (LETTER|"_") (LETTER|INT|"-"|"_")*
+NAME: LETTER (LETTER|INT|"-"|"_")*
 WORD: LETTER+
 
 %import common.LETTER

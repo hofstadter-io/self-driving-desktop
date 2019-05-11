@@ -1,0 +1,21 @@
+playlist termCopy {
+  hk "ctrl" "shift" "c";
+};
+playlist termPaste {
+  hk "ctrl" "shift" "v";
+};
+
+playlist openTerm {
+  hotkeys "ctrl" "alt" "t";
+  sleep 1.0;
+
+  active hofTerm;
+  sleep 0.5;
+};
+
+playlist closeTerm {
+  focus hofTerm;
+  hotkeys "ctrl" "shift" "q";
+  sleep 1;
+};
+
