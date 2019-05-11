@@ -1,0 +1,51 @@
+playlist "openGedit" {
+  hk "winleft";
+  sleep 0.2;
+  write "gedit\n";
+  sleep 0.3;
+
+  active "gedit";
+};
+
+playlist "closeGedit" {
+  focus "gedit";
+  delay 0.25;
+  hk "ctrl" "q";
+  kp "left";
+  kp "left";
+  kp "enter";
+  delay 0.025;
+};
+
+playlist "testCopyPaste" {
+  delay 0.25;
+  play "openGedit";
+
+  write "hello apple!\n";
+  hk "ctrl" "a";
+  copy_clipboard "apple";
+
+  kp "del";
+
+  write "hello world\n";
+  hk "ctrl" "a";
+  copy_clipboard "world";
+
+  kp "del";
+
+  paste_clipboard "apple";
+  hk "ctrl" "a";
+  paste_clipboard "world";
+
+  sleep 1;
+  play "closeGedit";
+  delay 0.025;
+};
+
+playlist "main" {
+  play "testCopyPaste";
+};
+
+delay 0.025;
+
+play "main";

@@ -6,7 +6,7 @@ with open('README.md', 'r') as f:
 
 setuptools.setup(
     name='self-driving-desktop',
-    version='0.0.6',
+    version='0.0.7',
     author='Hofstadter, Inc.',
     author_email='support@hofstadter.io',
     description='Desktop Automation Framework. Drive your keyboard and mouse with text files.',
