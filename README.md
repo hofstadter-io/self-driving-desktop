@@ -123,7 +123,7 @@ play main;
 
 #### Steps:
 
-- `play name nameB ...;`: run one or more playlists
+- `play name nameB ... [N];`: run one or more playlists, optionally repeat N times.
 - `delay x.y;`: set delay between steps to x.y seconds
 - `sleep x.y;`: sleep for x.y seconds
 - `shell "quoted strings"+;`: exec a command from the program
@@ -135,12 +135,12 @@ windows:
 
 mouse:
 
-- `mouse x y s;`: move the mose to x,y in s seconds
+- `mouse x y s;`: move the mouse to x,y in s seconds
 - `click;`: click the left mouse button
 - `btnclick [left,middle,right];`
 - `btndown [left,middle,right];`
 - `btnup [left,middle,right];`
-- `draw [left,middle,right] x y s;`: move the mose to x,y in s seconds
+- `draw [left,middle,right] x y s;`: drag the mouse to x,y in s seconds
 - `scroll n;`: scroll n lines, negative is up
 - `hscroll n;`: horizontal scroll n "clicks", negative is left
 
@@ -161,7 +161,7 @@ clipboard:
 - `copy_clipboard "name";` copy && save the clipboard contents to "name"
 - `paste_clipboard "name";` load the clipboard contents from "name" && paste
 
-all keys are from pyautogui
+all keys are from [pyautogui](https://pyautogui.readthedocs.io/en/latest/keyboard.html#keyboard-keys)
 
 [Grammer Definition](./self_driving_desktop/grammar.py)
 
