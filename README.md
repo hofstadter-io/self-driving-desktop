@@ -21,14 +21,20 @@ pip install self-driving-desktop
 Playing a playlist:
 
 ```
-sdd playlist.txt [--record]
+sdd playlist.txt
+```
+
+Recording a playlist:
+
+```
+sdd --record recording.txt
 ```
 
 ### Playlists
 
 ```
-# Set screen size
-screen "1080p";
+# Import other playlist files
+import "test/main.txt";
 
 # Create Coordinates
 coords {
@@ -37,9 +43,6 @@ coords {
     "720p":  [640, 360]
   }
 };
-
-# Import playlist files
-import "test/main.txt";
 
 # Create a playlist
 playlist "openChrome" {
@@ -98,6 +101,9 @@ playlist "main" {
   play "repeatTest" 4;
 
 };
+
+# Set screen size
+screen "1080p";
 
 # Set the global delay between steps
 delay 0.025;
