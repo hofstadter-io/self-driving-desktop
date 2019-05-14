@@ -4,7 +4,7 @@ Desktop Automation Framework.
 Drive your keyboard and mouse with text files.
 
 ```
-pip install self-driving-desktop
+pip3 install self-driving-desktop
 ```
 
 ### Running
