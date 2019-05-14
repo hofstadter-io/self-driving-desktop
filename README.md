@@ -3,15 +3,6 @@
 Desktop Automation Framework.
 Drive your keyboard and mouse with text files.
 
-Temp install instructions
-
-```
-git clone https://github.com/hofstadter-io/self-driving-desktop
-pip3 install ./self-driving-desktop/
-```
-
-Pip install is broken... :[
-
 ```
 pip install self-driving-desktop
 ```
@@ -221,5 +212,12 @@ source penv/bin/activate
 pip install -r requirements.txt
 export PYTHONPATH=.
 python self_driving_desktop/__main__.py ...
+```
+
+Install from local repository:
+
+```
+git clone https://github.com/hofstadter-io/self-driving-desktop
+pip3 install ./self-driving-desktop/
 ```
 
