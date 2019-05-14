@@ -16,7 +16,7 @@ setuptools.setup(
     packages=setuptools.find_packages(),
     classifiers=[],
     keywords=['desktop automation', 'automation', 'gui', 'mouse', 'keyboard', 'driver', 'recorder'],
-    install_requires=['click'],
+    install_requires=['click','python3-xlib','lark-parser','pyautogui','clipboard'],
     entry_points='''
     [console_scripts]
     sdd=self_driving_desktop:drive

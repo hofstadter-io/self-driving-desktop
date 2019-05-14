@@ -2,3 +2,4 @@ python3-xlib
 pyautogui
 lark-parser
 click
+clipboard

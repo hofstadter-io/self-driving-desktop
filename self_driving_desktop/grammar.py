@@ -63,8 +63,8 @@ click: "click"
 btnclick: ("btnclick"|"bc") string
 btndown: ("btndown"|"bd") string
 btnup: ("btnup"|"bu") string
-scroll: "scroll" int
-hscroll: "hscroll" int
+scroll: "scroll" number
+hscroll: "hscroll" number
 
 keypress: ("keypress"|"kp") string
 keydown: ("keydown"|"kd") string
